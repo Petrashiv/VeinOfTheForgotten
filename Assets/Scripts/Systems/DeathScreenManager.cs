@@ -9,11 +9,12 @@ public class DeathScreenManager : MonoBehaviour
     public GameObject panel;
     public TextMeshProUGUI coinsText;
     
+    
     public void ShowDeathScreen(int coinsCollected)
     {
-        MainCanvas.SetActive(false);
+        //MainCanvas.SetActive(false);
         deathScreenCanvas.SetActive(true);
-        //Time.timeScale = 0f; // замораживаем игру
+        //Time.timeScale = 0f; 
         coinsText.text = $"Вы собрали: {coinsCollected} монет";
     }
     public void OnUpgradeButton()

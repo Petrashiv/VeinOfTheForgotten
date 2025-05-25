@@ -7,8 +7,9 @@ public class LoadingScreenManager : MonoBehaviour
 {
     public static LoadingScreenManager Instance;
 
+    private Coroutine fadeCoroutine;
     public CanvasGroup loadingScreenGroup;
-    public CanvasGroup mainCanvasGroup;
+    
     public float fadeDuration = 1f;
     public Image blinkingImage;
     public float blinkSpeed = 2f;
@@ -46,19 +47,14 @@ public class LoadingScreenManager : MonoBehaviour
         StartCoroutine(FadeCanvas(loadingScreenGroup, 0, 1));
     }
 
-    public void HideLoadingScreen()
-    {
-        StartCoroutine(FadeCanvas(loadingScreenGroup, 1, 0));
-    }
+    
 
     private IEnumerator FadeScenes(string sceneName)
     {
         // Появление старого загрузочного экрана
         yield return StartCoroutine(FadeCanvas(loadingScreenGroup, 0, 1));
 
-        // Исчезновение старого UI
-        if (mainCanvasGroup != null)
-            yield return StartCoroutine(FadeCanvas(mainCanvasGroup, 1, 0));
+        
 
         yield return new WaitForSeconds(0.5f);
 
@@ -75,30 +71,11 @@ public class LoadingScreenManager : MonoBehaviour
         // === НАЙТИ загрузочный экран В НОВОЙ СЦЕНЕ ===
         yield return null; // Подождать один кадр, чтобы всё инициализировалось
 
-        CanvasGroup newLoadingScreen = null;
-        GameObject foundLoader = GameObject.FindWithTag("LoadingScreen"); // Объект с тегом
-        if (foundLoader != null)
-            newLoadingScreen = foundLoader.GetComponent<CanvasGroup>();
+        
 
-        // Скрыть загрузочный экран в новой сцене
-        if (newLoadingScreen != null)
-            yield return StartCoroutine(FadeCanvas(newLoadingScreen, 1, 0));
+        
 
-        // Найти и показать главный UI
-        GameObject newCanvasObj = GameObject.FindWithTag("MainCanvas");
-        if (newCanvasObj != null)
-        {
-            mainCanvasGroup = newCanvasObj.GetComponent<CanvasGroup>();
-            if (mainCanvasGroup != null)
-            {
-                mainCanvasGroup.alpha = 0f;
-                mainCanvasGroup.blocksRaycasts = false;
-                mainCanvasGroup.interactable = false;
-
-                yield return new WaitForSeconds(0.1f);
-                yield return StartCoroutine(FadeCanvas(mainCanvasGroup, 0, 1));
-            }
-        }
+        
     }
 
 

@@ -4,19 +4,30 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth = 3;
-    public int currentHealth;
+    private int maxHealth;
+    private int currentHealth;
+
     private DeathScreenManager deathScreenManager;
     private TextMeshProUGUI healthText;
-    
     private SpriteRenderer spriteRenderer;
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        // Получаем здоровье из PlayerStats
+        if (PlayerStats.Instance != null)
+        {
+            maxHealth = PlayerStats.Instance.maxHealth;
+            currentHealth = PlayerStats.Instance.maxHealth; // начинаем с полного
+        }
+        else
+        {
+            
+            Debug.LogWarning("PlayerStats.Instance не найден! Используется запасное значение здоровья.");
+        }
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         deathScreenManager = FindObjectOfType<DeathScreenManager>();
-        
+
         GameObject healthTextObj = GameObject.Find("HealthText");
         if (healthTextObj != null)
         {
@@ -60,14 +71,15 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        
         if (deathScreenManager != null)
         {
             int totalCoins = CoinManager.Instance != null ? CoinManager.Instance.GetCoinCount() : 0;
-            deathScreenManager?.ShowDeathScreen(totalCoins);
+            deathScreenManager.ShowDeathScreen(totalCoins);
         }
+
         gameObject.SetActive(false);
     }
+
     public void AddCoins(int amount)
     {
         if (CoinManager.Instance != null)

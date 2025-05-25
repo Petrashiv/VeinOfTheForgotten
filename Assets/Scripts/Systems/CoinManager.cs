@@ -11,7 +11,7 @@ public class CoinManager : MonoBehaviour
     void Awake()
     {
         UpdateUI();
-        ResetCoins(); // удалить после
+        
         if (Instance == null)
         {
             Instance = this;

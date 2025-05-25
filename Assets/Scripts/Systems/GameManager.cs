@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 
 
-public class MainMenuManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
     public float fadeDuration = 1f;
@@ -49,25 +49,5 @@ public class MainMenuManager : MonoBehaviour
 
         if (disableRaycastAfter)
             canvasGroup.blocksRaycasts = false;
-    }
-    public void NewGameButton()
-    {
-        LoadingScreenManager.Instance.LoadSceneWithLoading("PreGame");
-
-    }
-    public void ContinueButton()
-    {
-        LoadingScreenManager.Instance.LoadSceneWithLoading("PreGame");
-
-    }
-    public void SettingsButton()
-    {
-        
-
-    }
-    public void ExitButton()
-    {
-        
-
     }
 }
