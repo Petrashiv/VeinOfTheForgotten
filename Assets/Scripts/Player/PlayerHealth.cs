@@ -22,7 +22,7 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             
-            Debug.LogWarning("PlayerStats.Instance не найден! Используется запасное значение здоровья.");
+            Debug.LogWarning("PlayerStats.Instance не найден!");
         }
 
         spriteRenderer = GetComponent<SpriteRenderer>();

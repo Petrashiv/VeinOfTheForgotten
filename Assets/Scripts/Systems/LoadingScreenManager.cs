@@ -44,6 +44,7 @@ public class LoadingScreenManager : MonoBehaviour
 
     public void ShowLoadingScreen()
     {
+        loadingScreenGroup.blocksRaycasts = true;
         StartCoroutine(FadeCanvas(loadingScreenGroup, 0, 1));
     }
 

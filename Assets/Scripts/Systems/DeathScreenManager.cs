@@ -12,11 +12,11 @@ public class DeathScreenManager : MonoBehaviour
     
     public void ShowDeathScreen(int coinsCollected)
     {
-        //MainCanvas.SetActive(false);
-        deathScreenCanvas.SetActive(true);
-        //Time.timeScale = 0f; 
-        coinsText.text = $"Вы собрали: {coinsCollected} монет";
+    deathScreenCanvas.SetActive(true);
+    //Time.timeScale = 0f; 
+    coinsText.text = $"Вы собрали: {coinsCollected} монет";
     }
+
     public void OnUpgradeButton()
     {
         panel.SetActive(false);
