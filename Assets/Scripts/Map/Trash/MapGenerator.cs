@@ -6,6 +6,7 @@ public class SimpleMapGenerator : MonoBehaviour
     [Header("Настройки")]
     public GameObject[] roomPrefabs;
     public GameObject playerPrefab;
+    public GameObject enemyPrefab;
     public Vector2 roomSize = new Vector2(20, 20);
     public int roomCount = 10;
 
@@ -81,7 +82,6 @@ public class SimpleMapGenerator : MonoBehaviour
         }
     }
 
-    public GameObject enemyPrefab;
 
     GameObject SpawnRoom(Vector2Int gridPos)
     {

@@ -214,7 +214,7 @@ MonoBehaviour:
   damage: 1
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   attackCooldown: 0.3
 --- !u!114 &7220457520789649648
 MonoBehaviour:
