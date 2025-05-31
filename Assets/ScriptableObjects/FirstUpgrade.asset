@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: FirstUpgrade
   m_EditorClassIdentifier: 
   upgradeName: "\u041F\u0435\u0440\u0432\u043E\u0435 \u0423\u043B\u0443\u0447\u0448\u0435\u043D\u0438\u0435"
-  description: "\u0430"
-  cost: 1
-  upgradeType: 0
-  value: 1
-  unlocksNext: []
+  description: "\u042D\u0442\u043E \u0432\u0430\u0448\u0435 \u043F\u0435\u0440\u0432\u043E\u0435
+    \u0443\u043B\u0443\u0447\u0448\u0435\u043D\u0438\u0435"
+  cost: 10
+  bonuses:
+  - upgradeType: 0
+    value: 1
+  unlocksNext:
+  - {fileID: 11400000, guid: 7b71e28496b420d41b9c76b5989568ac, type: 2}

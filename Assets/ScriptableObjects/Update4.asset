@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d8ed01e48460b4c92be6c9afc73bae, type: 3}
+  m_Name: Update4
+  m_EditorClassIdentifier: 
+  upgradeName: "\u0445\u0443\u0439"
+  description: f
+  cost: 10
+  upgradeType: 1
+  value: 1
+  unlocksNext:
+  - {fileID: 11400000, guid: db37f281c2664d442895acb5509245f7, type: 2}
+  - {fileID: 11400000, guid: d1082e966a2f32e4eb4efe3d33eb565a, type: 2}
+  - {fileID: 11400000, guid: 5117253197c4ec443ae8164a4f7c583d, type: 2}

@@ -6,18 +6,19 @@ public class PlayerHealth : MonoBehaviour
 {
     private int maxHealth;
     private int currentHealth;
-
+    private int meleedamage;
     private DeathScreenManager deathScreenManager;
     private TextMeshProUGUI healthText;
     private SpriteRenderer spriteRenderer;
 
     private void Start()
     {
-        // Получаем здоровье из PlayerStats
+        
         if (PlayerStats.Instance != null)
         {
             maxHealth = PlayerStats.Instance.maxHealth;
-            currentHealth = PlayerStats.Instance.maxHealth; // начинаем с полного
+            currentHealth = maxHealth;
+            meleedamage = PlayerStats.Instance.meleeDamage;
         }
         else
         {

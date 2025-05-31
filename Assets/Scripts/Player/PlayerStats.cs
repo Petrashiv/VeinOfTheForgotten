@@ -5,7 +5,7 @@ public class PlayerStats : MonoBehaviour
     public static PlayerStats Instance;
 
     [Header("Base Stats")]
-    public int maxHealth = 5;
+    public int maxHealth { get; private set; } = 5;
     public int currentHealth;
     public int meleeDamage = 1;
     public int rangedDamage = 0;
@@ -16,7 +16,7 @@ public class PlayerStats : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject); // если нужно сохранить при смене сцен
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
@@ -27,9 +27,10 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+
     }
 
-    // Методы для улучшения
+    
     public void IncreaseHealth(int amount)
     {
         maxHealth += amount;
@@ -51,9 +52,24 @@ public class PlayerStats : MonoBehaviour
         stamina += amount;
     }
 
-    // Пример получения значений
-    /*public int GetHealth() => maxHealth;
-    public int GetMeleeDamage() => meleeDamage;
-    public int GetRangedDamage() => rangedDamage;
-    public int GetStamina() => stamina;*/
+    public int GetHealth()
+    {
+        return maxHealth;
+    }
+
+    public int GetStamina()
+    {
+        return stamina;
+    }
+
+    public int GetMeleeDamage()
+    {
+        return meleeDamage;
+    }
+
+    public int GetRangedDamage()
+    {
+        return rangedDamage;
+    }
+
 }

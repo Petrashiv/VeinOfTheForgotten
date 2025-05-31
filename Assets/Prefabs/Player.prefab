@@ -46,7 +46,6 @@ GameObject:
   - component: {fileID: 4314670841252622867}
   - component: {fileID: 7220457520789649648}
   - component: {fileID: 3083144301256949375}
-  - component: {fileID: 6451472081156763787}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -242,20 +241,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02216b6b95462ca48abaddc563c4d99e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6451472081156763787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7435078078482477995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8e07c6759826bf4891fc41d912bf656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 5
-  currentHealth: 0
-  meleeDamage: 1
-  rangedDamage: 0
-  stamina: 5

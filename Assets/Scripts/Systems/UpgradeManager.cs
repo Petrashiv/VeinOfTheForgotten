@@ -5,19 +5,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class UpgradeButtonPair
+{
+    public UpgradeData upgrade;
+    public Button button;
+}
+
 public class UpgradeManager : MonoBehaviour
 {
+    [Header("UI")]
     public TextMeshProUGUI coinText;
     public CanvasGroup canvasGroup;
     public float fadeDuration = 1f;
     public Image blinkingImage;
     public float blinkSpeed = 2f;
-    private Coroutine fadeCoroutine;
 
-    public Transform upgradeContainer;
-    public GameObject upgradeButtonPrefab;
-    public List<UpgradeData> availableUpgrades;
+    [Header("Upgrades")]
+    public List<UpgradeButtonPair> upgradeButtons;
     private HashSet<UpgradeData> purchasedUpgrades = new HashSet<UpgradeData>();
+
+    [Header("Upgrade Info Panel")]
+    public GameObject upgradeInfoPanel;
+    public TextMeshProUGUI infoTitle;
+    public TextMeshProUGUI infoDescription;
+    public TextMeshProUGUI infoCost;
+    public TextMeshProUGUI healthBonusText;
+    public TextMeshProUGUI meleeBonusText;
+    public TextMeshProUGUI rangedBonusText;
+    public TextMeshProUGUI staminaBonusText;
+    public Button purchaseButton;
+    public Button closeButton;
+
+    private Coroutine fadeCoroutine;
+    private UpgradeData currentSelectedUpgrade;
+
+    private void Start()
+    {
+        FadeOut();
+        UpdateCoinText();
+
+        if (upgradeInfoPanel != null)
+            upgradeInfoPanel.SetActive(false);
+
+        if (closeButton != null)
+            closeButton.onClick.AddListener(HideUpgradeInfo);
+
+        foreach (var pair in upgradeButtons)
+        {
+            var upgrade = pair.upgrade;
+
+            // Проверяем, куплен ли уже апгрейд — отключаем кнопку
+            if (UpgradeProgress.Instance.IsUpgradePurchased(upgrade))
+            {
+                pair.button.interactable = false;
+                continue;
+            }
+
+            pair.button.onClick.AddListener(() => ShowUpgradeInfo(upgrade));
+        }
+    }
 
     private void Update()
     {
@@ -53,77 +100,116 @@ public class UpgradeManager : MonoBehaviour
         if (disableRaycastAfter)
             canvasGroup.blocksRaycasts = false;
     }
-    void Start()
+
+    void UpdateCoinText()
     {
-        FadeOut();
         coinText.text = "Монет: " + CoinManager.Instance.GetCoinCount();
-        DisplayUpgrades();
     }
-    void DisplayUpgrades()
+
+    void ShowUpgradeInfo(UpgradeData upgrade)
     {
-        foreach (Transform child in upgradeContainer)
-            Destroy(child.gameObject);
+        currentSelectedUpgrade = upgrade;
 
-        foreach (var upgrade in availableUpgrades)
+        infoTitle.text = upgrade.upgradeName;
+        infoDescription.text = upgrade.description;
+        infoCost.text = "Стоимость: " + upgrade.cost + " монет";
+
+        healthBonusText.text = "";
+        meleeBonusText.text = "";
+        rangedBonusText.text = "";
+        staminaBonusText.text = "";
+
+        foreach (var bonus in upgrade.bonuses)
         {
-            if (purchasedUpgrades.Contains(upgrade)) continue;
-
-            GameObject buttonObj = Instantiate(upgradeButtonPrefab, upgradeContainer);
-            buttonObj.GetComponentInChildren<TextMeshProUGUI>().text = $"{upgrade.upgradeName} ({upgrade.cost} монет)";
-            Button button = buttonObj.GetComponent<Button>();
-            button.onClick.AddListener(() => TryPurchase(upgrade, buttonObj));
+            switch (bonus.upgradeType)
+            {
+                case UpgradeType.Health:
+                    healthBonusText.text = $"+{bonus.value}";
+                    break;
+                case UpgradeType.MeleeDamage:
+                    meleeBonusText.text = $"+{bonus.value}";
+                    break;
+                case UpgradeType.RangedDamage:
+                    rangedBonusText.text = $"+{bonus.value}";
+                    break;
+                case UpgradeType.Stamina:
+                    staminaBonusText.text = $"+{bonus.value}";
+                    break;
+            }
         }
+
+        purchaseButton.onClick.RemoveAllListeners();
+        purchaseButton.onClick.AddListener(() => TryPurchase(upgrade));
+
+        upgradeInfoPanel.SetActive(true);
     }
 
-    void TryPurchase(UpgradeData upgrade, GameObject buttonObj)
+    void HideUpgradeInfo()
+    {
+        upgradeInfoPanel.SetActive(false);
+    }
+
+    void TryPurchase(UpgradeData upgrade)
     {
         if (CoinManager.Instance.GetCoinCount() >= upgrade.cost)
         {
             CoinManager.Instance.AddCoins(-upgrade.cost);
+            UpdateCoinText();
+
             ApplyUpgrade(upgrade);
             purchasedUpgrades.Add(upgrade);
-            Destroy(buttonObj);
-
-            // Добавляем открытые улучшения
+            UpgradeProgress.Instance.MarkUpgradeAsPurchased(upgrade);
+            UpgradeProgress.Instance.SaveProgress();
             foreach (var next in upgrade.unlocksNext)
-                if (!availableUpgrades.Contains(next)) availableUpgrades.Add(next);
+            {
+                foreach (var pair in upgradeButtons)
+                {
+                    if (pair.upgrade == next)
+                        pair.button.gameObject.SetActive(true);
+                }
+            }
 
-            DisplayUpgrades(); // Перестроить UI
+            HideUpgradeInfo();
+
+            foreach (var pair in upgradeButtons)
+            {
+                if (pair.upgrade == upgrade)
+                    pair.button.interactable = false;
+            }
         }
     }
 
     void ApplyUpgrade(UpgradeData upgrade)
     {
-        switch (upgrade.upgradeType)
+        foreach (var bonus in upgrade.bonuses)
         {
-            case UpgradeType.Health:
-                PlayerStats.Instance.IncreaseHealth(upgrade.value);
-                break;
-            case UpgradeType.MeleeDamage:
-                PlayerStats.Instance.IncreaseMeleeDamage(upgrade.value);
-                break;
-            case UpgradeType.RangedDamage:
-                PlayerStats.Instance.IncreaseRangedDamage(upgrade.value);
-                break;
-            case UpgradeType.Stamina:
-                PlayerStats.Instance.IncreaseStamina(upgrade.value);
-                break;
-            /*case UpgradeType.Ability:
-                PlayerAbilities.Instance.UnlockAbility(upgrade);
-                break;*/
+            switch (bonus.upgradeType)
+            {
+                case UpgradeType.Health:
+                    PlayerStats.Instance.IncreaseHealth(bonus.value);
+                    break;
+                case UpgradeType.MeleeDamage:
+                    PlayerStats.Instance.IncreaseMeleeDamage(bonus.value);
+                    break;
+                case UpgradeType.RangedDamage:
+                    PlayerStats.Instance.IncreaseRangedDamage(bonus.value);
+                    break;
+                case UpgradeType.Stamina:
+                    PlayerStats.Instance.IncreaseStamina(bonus.value);
+                    break;
+            }
         }
     }
-
 
     public void OnMenuButton()
     {
         LoadingScreenManager.Instance.LoadSceneWithLoading("PreGame");
-
     }
-    
 
     public void BackToMainMenu()
     {
         LoadingScreenManager.Instance.LoadSceneWithLoading("MainMenu");
     }
+    
+
 }

@@ -1,14 +1,23 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "NewUpgrade", menuName = "Upgrades/Upgrade")]
 public class UpgradeData : ScriptableObject
 {
     public string upgradeName;
-    public string description;
+    [TextArea] public string description;
     public int cost;
+
+    public List<StatBonus> bonuses; // Список характеристик, которые улучшает апгрейд
+
+    public UpgradeData[] unlocksNext; // Улучшения, которые откроются после покупки
+}
+
+[System.Serializable]
+public class StatBonus
+{
     public UpgradeType upgradeType;
-    public int value; // Насколько увеличивается характеристика
-    public UpgradeData[] unlocksNext; // Какие улучшения открываются после покупки
+    public int value;
 }
 
 public enum UpgradeType
@@ -17,5 +26,5 @@ public enum UpgradeType
     MeleeDamage,
     RangedDamage,
     Stamina,
-    Ability // Способность, которую дает
+    Ability
 }

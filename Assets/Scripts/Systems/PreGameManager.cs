@@ -12,10 +12,17 @@ public class PreGameManager : MonoBehaviour
     public Image blinkingImage;
     public float blinkSpeed = 2f;
     private Coroutine fadeCoroutine;
+    [Header("Player Stats Display")]
+    public TextMeshProUGUI healthText;
+    public TextMeshProUGUI meleeText;
+    public TextMeshProUGUI rangedText;
+    public TextMeshProUGUI staminaText;
     private void Start()
     {
+        UpdatePlayerStatsDisplay();
         FadeOut();
     }
+    
     private void Update()
     {
         if (canvasGroup.alpha > 0 && blinkingImage != null)
@@ -50,13 +57,32 @@ public class PreGameManager : MonoBehaviour
         if (disableRaycastAfter)
             canvasGroup.blocksRaycasts = false;
     }
+    void UpdatePlayerStatsDisplay()
+    {
+        if (PlayerStats.Instance != null)
+        {
+            healthText.text = PlayerStats.Instance.GetHealth().ToString();
+            meleeText.text = PlayerStats.Instance.GetMeleeDamage().ToString();
+            rangedText.text = PlayerStats.Instance.GetRangedDamage().ToString();
+            staminaText.text = PlayerStats.Instance.GetStamina().ToString();
+        }
+    }
+    public void OnMenu()
+    {
+        
+        LoadingScreenManager.Instance.LoadSceneWithLoading("MainMenu");
+        
+    }
+    public void Upgrades()
+    {
 
+        LoadingScreenManager.Instance.LoadSceneWithLoading("UpgradeMenu");
 
+    }
     public void Retry()
     {
         Time.timeScale = 1f;
         LoadingScreenManager.Instance.LoadSceneWithLoading("SampleScene");
-        /*Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);*/
+        
     }
 }

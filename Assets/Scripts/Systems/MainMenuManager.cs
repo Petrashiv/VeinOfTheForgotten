@@ -60,14 +60,13 @@ public class MainMenuManager : MonoBehaviour
         LoadingScreenManager.Instance.LoadSceneWithLoading("PreGame");
 
     }
-    public void SettingsButton()
-    {
-        
-
-    }
+    
     public void ExitButton()
     {
-        
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
 
     }
 }
