@@ -16,6 +16,8 @@ namespace RogueSharpTutorial.Model
         private readonly int        roomMaxSize;
         private readonly int        roomMinSize;
 
+
+
         private readonly DungeonMap map;
         [SerializeField] private  Game       game;
 
@@ -51,6 +53,7 @@ namespace RogueSharpTutorial.Model
         {          
             map.Initialize(width, height);                                                  // Set the properties of all cells to false
 
+
             for (int r = 0; r < maxRooms; r++)                                              // Try to place as many rooms as the specified maxRooms
             {
                 int roomWidth = UnityEngine.Random.Range(roomMinSize, roomMaxSize);                 // Determine the size and position of the room randomly
@@ -59,6 +62,8 @@ namespace RogueSharpTutorial.Model
                 int roomYPosition = UnityEngine.Random.Range(0, height - roomHeight - 1);
 
                 var newRoom = new Rectangle(roomXPosition, roomYPosition, roomWidth, roomHeight);// All of our rooms can be represented as Rectangles
+
+
                 bool newRoomIntersects = map.Rooms.Any(room => newRoom.Intersects(room));   // Check to see if the room rectangle intersects with any other rooms
 
                 if (!newRoomIntersects)                                                     // As long as it doesn't intersect add it to the list of rooms
@@ -102,18 +107,13 @@ namespace RogueSharpTutorial.Model
         /// <summary>
         /// Find the center of the first room that we created and place the Player there.
         /// </summary>
-        /*private void PlacePlayer(Game game)
+        /*public void PlacePlayer()
         {
-            Player player = game.Player;
-            if (player == null)
-            {
-                player = new Player(game);
-            }
-
-            player.X = map.Rooms[0].Center.X;
-            player.Y = map.Rooms[0].Center.Y;
-
-            map.AddPlayer(player);
+            int X = map.Rooms[0].Center.X;
+            int Y = map.Rooms[0].Center.Y;
+            Vector2 startPos = new Vector2(X, Y);
+            
+            player.transform.position = startPos;
         }*/
 
         /// <summary>

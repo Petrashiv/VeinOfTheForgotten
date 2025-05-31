@@ -15,11 +15,19 @@ namespace RogueSharpTutorial.Controller
     public class Game : MonoBehaviour
     {
         [SerializeField] private GameObject tilePrefab;
+        [SerializeField] private GameObject lukePrefab;
+        [SerializeField] private GameObject chestPrefab;
+
         [SerializeField] private int mapWidth = 100;
         [SerializeField] private int mapHeight = 100;
         [SerializeField] private int maxRooms = 20;
         [SerializeField] private int roomMaxSize = 13;
         [SerializeField] private int roomMinSize = 7;
+
+        [SerializeField] private GameObject player;
+        [SerializeField] private GameObject enemy;
+
+        private Point lukePoint;
         public static IRandom Random { get; private set; }
 
         private DungeonMap dungeonMap;
@@ -36,8 +44,10 @@ namespace RogueSharpTutorial.Controller
             GenerateMap();
         }
 
-        private void GenerateMap()
+        public void GenerateMap()
         {
+            int seed = (int)DateTime.UtcNow.Ticks;
+            Random = new DotNetRandom(seed);
             // Создаем генератор карты через конструктор (как у вас было изначально)
             MapGenerator mapGenerator = new MapGenerator(
                 this,
@@ -48,9 +58,20 @@ namespace RogueSharpTutorial.Controller
                 roomMinSize,
                 1 // mapLevel
             );
+            
 
             dungeonMap = mapGenerator.CreateMap();
             DrawMap();
+
+            int X = dungeonMap.Rooms[0].Center.X;
+            int Y = dungeonMap.Rooms[0].Center.Y;
+            Vector2 startPos = new Vector2(X, Y);
+
+            player.transform.position = startPos;
+
+            PlaceEnemies();
+            PlaceLuke();
+            PlaceChests();
         }
         private void DrawMap()
         {
@@ -75,6 +96,49 @@ namespace RogueSharpTutorial.Controller
                         tile.Collider.enabled = true;
                     }
                 }
+            }
+        }
+
+        private void PlaceEnemies()
+        {
+            for (int i = 1; i < dungeonMap.Rooms.Count; i++) // комнаты
+            {
+                int enemyCount = Random.Next(0, 3);
+
+                for (int j = 0; j < enemyCount; j++) // враги
+                {
+                    int X = dungeonMap.GetRandomWalkableLocationInRoom(dungeonMap.Rooms[i]).X;
+                    int Y = dungeonMap.GetRandomWalkableLocationInRoom(dungeonMap.Rooms[i]).Y;
+
+                    GameObject newEnemy = Instantiate(enemy, new Vector2 (X, Y), Quaternion.identity);
+                    newEnemy.SetActive(true);
+                }
+            }
+        }
+
+        private void PlaceLuke()
+        {
+            lukePoint = dungeonMap.GetRandomWalkableLocationInRoom(dungeonMap.Rooms[Random.Next(1, dungeonMap.Rooms.Count - 1)]);
+            Vector2 lukePos = new Vector2(lukePoint.X, lukePoint.Y);
+
+            Instantiate(lukePrefab, lukePos, Quaternion.identity);
+        }
+
+        private void PlaceChests()
+        {
+            int chestsCount = Random.Next(0, 3);
+
+            for (int i = 0; i < chestsCount; i++)
+            {
+                Point chestPoint = dungeonMap.GetRandomWalkableLocationInRoom(dungeonMap.Rooms[Random.Next(1, dungeonMap.Rooms.Count - 1)]);
+
+                if (chestPoint == lukePoint)
+                {
+                    continue;
+                }
+
+                Vector2 chestPos = new Vector2(chestPoint.X, chestPoint.Y);
+                Instantiate(chestPrefab, chestPos, Quaternion.identity);
             }
         }
     }
