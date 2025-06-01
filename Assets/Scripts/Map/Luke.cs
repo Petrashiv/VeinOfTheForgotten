@@ -10,7 +10,8 @@ public class Luke : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                SceneManager.LoadScene(0);
+                LoadingScreenManager.Instance.LoadSceneWithLoading("SampleScene");
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
         }
     }

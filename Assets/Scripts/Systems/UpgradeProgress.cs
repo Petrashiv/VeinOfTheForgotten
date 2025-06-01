@@ -15,7 +15,7 @@ public class UpgradeProgress : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         Instance = this;
         DontDestroyOnLoad(gameObject);
         LoadProgress(); // Загрузка прогресса при старте

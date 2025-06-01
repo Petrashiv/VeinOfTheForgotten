@@ -103,7 +103,7 @@ public class UpgradeManager : MonoBehaviour
 
     void UpdateCoinText()
     {
-        coinText.text = "Монет: " + CoinManager.Instance.GetCoinCount();
+        coinText.text = "Coins: " + CoinManager.Instance.GetCoinCount();
     }
 
     void ShowUpgradeInfo(UpgradeData upgrade)

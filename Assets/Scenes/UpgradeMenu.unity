@@ -885,6 +885,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 253709004}
   m_CullTransparentMesh: 1
+--- !u!1 &398215466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 398215468}
+  - component: {fileID: 398215467}
+  m_Layer: 0
+  m_Name: UpgradeProgress
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &398215467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398215466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 645407256bfb70b4080d2d8580d3ffb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &398215468
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398215466}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 74.11483, y: 63.801723, z: -0.38822597}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &504334497
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,6 +966,24 @@ MonoBehaviour:
   upgradeButtons:
   - upgrade: {fileID: 11400000, guid: 5dec3bc2df7f0494fac57140a7e3b72a, type: 2}
     button: {fileID: 569294531}
+  - upgrade: {fileID: 11400000, guid: 7b71e28496b420d41b9c76b5989568ac, type: 2}
+    button: {fileID: 16749781}
+  - upgrade: {fileID: 11400000, guid: cc76de4890c747f4aa32829a76ac7746, type: 2}
+    button: {fileID: 634941127}
+  - upgrade: {fileID: 11400000, guid: 0c8677fe07d0e9847a1e0b5a243df61c, type: 2}
+    button: {fileID: 1772633041}
+  - upgrade: {fileID: 11400000, guid: db37f281c2664d442895acb5509245f7, type: 2}
+    button: {fileID: 111334046}
+  - upgrade: {fileID: 11400000, guid: f2b3d17ca429946498a78af2a0661b38, type: 2}
+    button: {fileID: 168578850}
+  - upgrade: {fileID: 11400000, guid: d1082e966a2f32e4eb4efe3d33eb565a, type: 2}
+    button: {fileID: 854629694}
+  - upgrade: {fileID: 11400000, guid: f31bd520a37cdf144a0f0e1558dd89bb, type: 2}
+    button: {fileID: 1122102537}
+  - upgrade: {fileID: 11400000, guid: 5117253197c4ec443ae8164a4f7c583d, type: 2}
+    button: {fileID: 1256821211}
+  - upgrade: {fileID: 11400000, guid: 86d289a0049162d48a8b1bd157159aa0, type: 2}
+    button: {fileID: 223502626}
   upgradeInfoPanel: {fileID: 1533953433}
   infoTitle: {fileID: 2094141705}
   infoDescription: {fileID: 1153133043}
@@ -4033,3 +4095,4 @@ SceneRoots:
   - {fileID: 504334499}
   - {fileID: 1355808588}
   - {fileID: 640453675}
+  - {fileID: 398215468}
